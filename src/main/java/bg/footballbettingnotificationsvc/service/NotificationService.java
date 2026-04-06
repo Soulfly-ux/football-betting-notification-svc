@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.UUID;
 
 import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 
@@ -41,5 +43,10 @@ public class NotificationService {
 
 
         return DtoMapper.mapFromNotification(savedNotification);
+    }
+
+    public List<Notification> getUserNotifications(UUID userId) {
+
+         return   notificationRepository.findByUserIdOrderByCreatedOnDesc(userId);
     }
 }
