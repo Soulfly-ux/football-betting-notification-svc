@@ -11,9 +11,10 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
-import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
+
 
 @Service
 public class NotificationService {
@@ -45,8 +46,21 @@ public class NotificationService {
         return DtoMapper.mapFromNotification(savedNotification);
     }
 
-    public List<Notification> getUserNotifications(UUID userId) {
+    public List<NotificationResponse> getUserNotifications(UUID userId) {
 
-         return   notificationRepository.findByUserIdOrderByCreatedOnDesc(userId);
+        return notificationRepository.findByUserIdOrderByCreatedOnDesc(userId).stream()
+                .map(DtoMapper::mapFromNotification).toList();
+    }
+
+    public NotificationResponse markAsRead(UUID notificationId) {
+
+        Notification notification = notificationRepository.findById(notificationId)
+                .orElseThrow(() -> new RuntimeException("Notification not found"));
+        notification.setIsRead(true);
+
+        Notification savedNotification = notificationRepository.save(notification);
+
+
+        return DtoMapper.mapFromNotification(savedNotification);
     }
 }
