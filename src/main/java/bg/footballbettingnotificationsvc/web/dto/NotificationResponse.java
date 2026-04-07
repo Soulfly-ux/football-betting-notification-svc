@@ -22,4 +22,6 @@ public class NotificationResponse {
     private NotificationStatus status;
 
     private LocalDateTime createdOn;
+
+    private Boolean isRead;
 }

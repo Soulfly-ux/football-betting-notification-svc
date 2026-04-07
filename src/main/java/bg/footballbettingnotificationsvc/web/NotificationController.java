@@ -46,12 +46,22 @@ public class NotificationController {
     }
 
 
-    @PatchMapping("/{}/{notificationId}/read")
+    @PatchMapping("/{notificationId}/read")
     public ResponseEntity<NotificationResponse> markAsRead( @PathVariable UUID notificationId) {
 
         NotificationResponse notificationResponse = notificationService.markAsRead(notificationId);
 
         return ResponseEntity.ok(notificationResponse);
+    }
+
+    @DeleteMapping("/{notificationId}")
+    public ResponseEntity<Void> delete(@PathVariable UUID notificationId) {
+
+        notificationService.delete(notificationId);
+
+       return ResponseEntity.noContent().build();
+
+
     }
 
 

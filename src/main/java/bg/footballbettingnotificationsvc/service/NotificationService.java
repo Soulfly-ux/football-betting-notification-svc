@@ -1,5 +1,6 @@
 package bg.footballbettingnotificationsvc.service;
 
+import bg.footballbettingnotificationsvc.exception.NotificationNotFoundException;
 import bg.footballbettingnotificationsvc.model.Notification;
 import bg.footballbettingnotificationsvc.model.NotificationStatus;
 import bg.footballbettingnotificationsvc.repository.NotificationRepository;
@@ -11,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 
@@ -55,7 +55,7 @@ public class NotificationService {
     public NotificationResponse markAsRead(UUID notificationId) {
 
         Notification notification = notificationRepository.findById(notificationId)
-                .orElseThrow(() -> new RuntimeException("Notification not found"));
+                .orElseThrow(() -> new NotificationNotFoundException("Notification with id " + notificationId + " was not found"));
         notification.setIsRead(true);
 
         Notification savedNotification = notificationRepository.save(notification);
@@ -63,4 +63,16 @@ public class NotificationService {
 
         return DtoMapper.mapFromNotification(savedNotification);
     }
+
+    public void delete(UUID notificationId) {
+        Notification notification = notificationRepository.findById(notificationId)
+                .orElseThrow(() -> new NotificationNotFoundException("Notification with id " + notificationId + " was not found"));
+
+
+
+        notificationRepository.delete(notification);
+    }
+
+
 }
+

@@ -19,6 +19,7 @@ public class DtoMapper {
                 .type(notification.getType())
                 .status(notification.getStatus())
                 .createdOn(notification.getCreatedOn())
+                .isRead(notification.getIsRead())
                 .build();
     }
 }
