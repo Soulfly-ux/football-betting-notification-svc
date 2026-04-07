@@ -6,6 +6,7 @@ import bg.footballbettingnotificationsvc.model.NotificationStatus;
 import bg.footballbettingnotificationsvc.repository.NotificationRepository;
 import bg.footballbettingnotificationsvc.web.dto.NotificationRequest;
 import bg.footballbettingnotificationsvc.web.dto.NotificationResponse;
+import bg.footballbettingnotificationsvc.web.dto.UnreadNotificationCountResponse;
 import bg.footballbettingnotificationsvc.web.mapper.DtoMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -71,6 +72,14 @@ public class NotificationService {
 
 
         notificationRepository.delete(notification);
+    }
+
+
+    public UnreadNotificationCountResponse getUnreadNotificationCount(UUID userId) {
+
+        long count = notificationRepository.countByUserIdAndIsReadFalse(userId);
+
+        return new UnreadNotificationCountResponse(count);
     }
 
 

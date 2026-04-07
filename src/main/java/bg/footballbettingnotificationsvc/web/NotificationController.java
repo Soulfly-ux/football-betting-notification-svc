@@ -4,6 +4,7 @@ package bg.footballbettingnotificationsvc.web;
 import bg.footballbettingnotificationsvc.service.NotificationService;
 import bg.footballbettingnotificationsvc.web.dto.NotificationRequest;
 import bg.footballbettingnotificationsvc.web.dto.NotificationResponse;
+import bg.footballbettingnotificationsvc.web.dto.UnreadNotificationCountResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -61,6 +62,16 @@ public class NotificationController {
 
        return ResponseEntity.noContent().build();
 
+
+    }
+
+
+    @GetMapping("/users/{userId}/unread-count")
+    public ResponseEntity<UnreadNotificationCountResponse> getUnreadNotificationCount(@PathVariable UUID userId) {
+
+        UnreadNotificationCountResponse unreadNotifications = notificationService.getUnreadNotificationCount(userId);
+
+        return ResponseEntity.ok(unreadNotifications);
 
     }
 
